@@ -56,9 +56,18 @@ El notebook tiene dos interruptores en la celda de configuración:
 
 ### Despliegue en Streamlit Community Cloud
 1. Suba el repositorio a GitHub **incluyendo `models/*.pt`, `models/*.json` y `data/estudiantes.db`**.
-2. En [share.streamlit.io](https://share.streamlit.io) cree la app apuntando a `app.py`.
-3. `requirements.txt` instala la versión **CPU** de PyTorch (línea `--extra-index-url`). Si el despliegue falla por esa línea, elimínela y deje solo `torch`.
-4. Copie la URL pública en `src/project_info.py` (`ENLACE_APP`, `ENLACE_REPO`, `ENLACE_VIDEO`).
+   Sin los `.pt` la app arranca igual, pero las páginas de predicción y comparación avisan
+   «Faltan modelos entrenados»: no sirven para la demostración del video ni para la captura del póster.
+2. En [share.streamlit.io](https://share.streamlit.io) → *Create app* → *Deploy a public app from GitHub*,
+   apuntando a este repositorio, rama `main`, archivo `app.py`.
+3. `requirements.txt` fija `torch==2.9.1+cpu` en Linux desde el índice de CPU de PyTorch. **No quite esa
+   línea:** la rueda de PyPI para Linux arrastra las dependencias de CUDA y supera el límite de recursos
+   del servicio. Hay ruedas verificadas para Python 3.11, 3.12 y 3.13, así que cualquiera de las tres
+   versiones sirve en el menú *Advanced settings*.
+4. Copie la URL pública en `src/project_info.py` (`ENLACE_APP`, `ENLACE_REPO`, `ENLACE_VIDEO`) y vuelva a
+   generar el póster: los QR se construyen a partir de esos tres valores.
+5. Cada `git push` a `main` vuelve a desplegar la app automáticamente, así que basta con subir `models/`
+   cuando el notebook termine.
 
 ## 5. Estructura
 

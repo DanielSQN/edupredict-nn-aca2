@@ -1,7 +1,13 @@
 # Dependencias de ejecución (Streamlit Community Cloud y uso local) — ACA 2.
-# PyTorch en su versión CPU: más liviana para Streamlit Community Cloud.
+#
+# PyTorch se fija en su compilación de CPU: en Linux (el entorno de Streamlit
+# Community Cloud) la rueda que PyPI publica trae todas las dependencias de CUDA
+# y supera por sí sola el límite de recursos del servicio, así que se toma del
+# índice de CPU de PyTorch. En Windows y macOS la rueda de PyPI ya es de CPU.
+# Ruedas verificadas para Python 3.11, 3.12 y 3.13.
 --extra-index-url https://download.pytorch.org/whl/cpu
-torch>=2.4
+torch==2.9.1+cpu ; sys_platform == "linux"
+torch==2.9.1 ; sys_platform != "linux"
 streamlit>=1.40
 scikit-learn>=1.5
 pandas>=2.2
