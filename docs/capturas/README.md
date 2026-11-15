@@ -1,7 +1,7 @@
 # Capturas de la aplicación
 
-Después de ejecutar el notebook y `streamlit run app.py`, guarde aquí capturas (PNG) para el póster:
+Capturas de la app desplegada (https://edupredict-nn-aca2.streamlit.app/):
 
-- `prediccion.png` — página **Predicción individual** con un resultado (la usa `scripts/build_poster.py`).
-- `comparacion.png` — página **Comparación de modelos** (tabla + curvas de entrenamiento).
-- `dashboard.png` — página **Dashboard**.
+- `prediccion_resultado.png` — resultado del módulo **Predicción individual** (clase estimada y probabilidades).
+  Es la que `scripts/build_poster.py` inserta como Figura 4 del póster.
+- `prediccion.png` — la misma página completa, con el formulario. Se usa solo si falta la anterior.

@@ -33,13 +33,21 @@ td.diag { background:#13315C; color:#fff; font-weight:700; }
 .dot { display:inline-block; width:4mm; height:4mm; border-radius:50%; margin-right:2mm; }
 .imp { display:grid; grid-template-columns: 80mm 1fr 20mm; align-items:center; gap:3mm; font-size:13pt; margin:1.5mm 0; }
 .imp .bar { height:5mm; background:#13315C; border-radius:0 2mm 2mm 0; }
-.shot { width:100%; height:62mm; object-fit:cover; object-position:top; border-radius:4mm; border:1px solid #E6E9EF; }
+.shot { width:100%; height:auto; max-height:62mm; object-fit:cover; object-position:top; border-radius:4mm; border:1px solid #E6E9EF; }
 .refs { grid-column: span 1; } .ref { font-size:10pt !important; line-height:1.25 !important; padding-left:8mm; text-indent:-8mm; margin:0 0 1.6mm !important; word-break:break-word; }
 .cite { font-weight:500; color:#5B6577; font-size:18pt; }
 .lbl { font-size:11.5pt !important; line-height:1.25 !important; margin:2mm 0 1.5mm !important; color:#1B2433; }
 .qrs { display:flex; flex-direction:column; gap:3mm; } .qrbox { flex:1; display:flex; gap:4mm; align-items:center; font-size:12pt; }
 .qrbox img, .ph.qr { width:25mm; height:25mm; flex:none; } .qrbox { word-break:break-all; }
 .note { font-size:11.5pt; color:#5B6577; }
+.net { display:flex; align-items:stretch; gap:2mm; margin:1mm 0 3mm; }
+.net .col { display:flex; flex-direction:column; gap:2mm; flex:1.7; }
+.net .arrow { align-self:center; font-size:20pt; }
+.node { flex:1; background:#13315C; color:#fff; border-radius:3mm; padding:3mm 2mm; text-align:center; font-size:11.5pt;
+         font-weight:600; line-height:1.25; display:flex; align-items:center; justify-content:center; }
+.node.in { background:#E8EEF7; color:#0B2545; }
+.node.out { background:#0B2545; }
+table.hp td { text-align:left; } table.hp td:nth-child(odd) { color:#5B6577; width:27%; } table.hp td:nth-child(even) { font-weight:600; }
 </style></head><body><div class="poster">
 <header><img class="logo" src="logo_cun.png" alt="Logo CUN"><div>
 <h1>EduPredict AI</h1>
@@ -70,11 +78,13 @@ td.diag { background:#13315C; color:#fff; font-weight:700; }
 
 <div class="grid">
  <div class="card"><h3>Arquitectura de red neuronal</h3>
-  <p><b>Red neuronal MLP (embeddings)</b> · 17,323 parámetros entrenables</p>
+  <p><b>Red neuronal MLP (embeddings)</b> · 17.323 parámetros entrenables</p>
+  <p class='lbl'><b>Figura 1</b><br><i>Arquitectura de la red desplegada (escenario completo)</i></p>
+  <div class="net"><div class='col'><div class='node in'><span>9 variables nominales<br><i>embeddings</i> (dim. 4)</span></div><div class='node in'><span>29 numéricas y binarias<br>estandarizadas</span></div></div><div class='arrow'>→</div><div class='node in'><span>Vector de<br>65 valores</span></div><div class='arrow'>→</div><div class='node '><span>Capa densa<br>128 neuronas<br>ReLU · dropout 0,4</span></div><div class='arrow'>→</div><div class='node '><span>Capa densa<br>64 neuronas<br>ReLU · dropout 0,4</span></div><div class='arrow'>→</div><div class='node out'><span>Salida<br>3 clases<br>softmax</span></div></div>
   <p class='lbl'><b>Tabla 1</b><br><i>Hiperparámetros de la red desplegada</i></p>
-  <table><tr><td>emb_dim</td><td>4</td></tr><tr><td>hidden</td><td>[128, 64]</td></tr><tr><td>dropout</td><td>0.4</td></tr><tr><td>lr</td><td>0.001</td></tr><tr><td>weight_decay</td><td>0.01</td></tr><tr><td>batch_size</td><td>128</td></tr><tr><td>class_weight</td><td>balanced (en la pérdida)</td></tr><tr><td>optimizador</td><td>AdamW</td></tr><tr><td>early_stopping</td><td>macro-F1 de validación, paciencia 15</td></tr></table></div>
+  <table class="hp"><tr><td>Dimensión de embedding</td><td>4</td><td>Tamaño de lote</td><td>128</td></tr><tr><td>Capas ocultas</td><td>128 → 64</td><td>Peso de clases</td><td>balanced (en la pérdida)</td></tr><tr><td>Dropout</td><td>0,4</td><td>Optimizador</td><td>AdamW</td></tr><tr><td>Tasa de aprendizaje</td><td>0,001</td><td>Parada temprana</td><td>macro-F1 de validación, paciencia 15</td></tr><tr><td>Weight decay</td><td>0,01</td><td></td><td></td></tr></table></div>
  <div class="card"><h3>Curvas de entrenamiento</h3>
-  <p class='lbl'><b>Figura 1</b><br><i>Pérdida de entrenamiento y validación por época (Red neuronal MLP, escenario completo)</i></p>
+  <p class='lbl'><b>Figura 2</b><br><i>Pérdida de entrenamiento y validación por época (Red neuronal MLP, escenario completo)</i></p>
   <svg viewBox='0 0 520 230' width='100%'><rect x='40' y='10' width='470' height='190' fill='none' stroke='#E6E9EF'/><polyline points='40.0,20.3 58.8,79.2 77.6,101.5 96.4,115.5 115.2,122.9 134.0,128.4 152.8,132.2 171.6,137.7 190.4,140.5 209.2,145.4 228.0,147.6 246.8,150.6 265.6,154.4 284.4,160.2 303.2,164.6 322.0,168.8 340.8,171.6 359.6,175.0 378.4,178.0 397.2,181.7 416.0,184.5 434.8,183.3 453.6,188.2 472.4,192.7 491.2,196.8 510.0,200.0' fill='none' stroke='#13315C' stroke-width='3'/><polyline points='40.0,20.0 58.8,74.6 77.6,93.9 96.4,102.5 115.2,106.1 134.0,108.8 152.8,107.6 171.6,110.3 190.4,108.3 209.2,109.9 228.0,112.8 246.8,110.9 265.6,110.9 284.4,114.4 303.2,111.1 322.0,111.5 340.8,111.1 359.6,112.0 378.4,109.1 397.2,112.6 416.0,111.6 434.8,101.1 453.6,104.2 472.4,109.6 491.2,108.2 510.0,109.1' fill='none' stroke='#eb6834' stroke-width='3'/><line x1='228.0' x2='228.0' y1='10' y2='200' stroke='#5B6577' stroke-dasharray='5'/><text x='260' y='222' font-size='14' text-anchor='middle' fill='#5B6577'>Época (línea punteada = época elegida: 11)</text><text x='46' y='24' font-size='14' fill='#13315C'>■ Entrenamiento</text><text x='170' y='24' font-size='14' fill='#eb6834'>■ Validación</text><text x='4' y='100' font-size='14' fill='#5B6577' transform='rotate(-90 12 100)'>Pérdida</text></svg>
   <p class="note"><i>Nota.</i> <i>Early stopping</i> sobre el macro-F1 de validación (15 % del entrenamiento).</p></div>
 </div>
@@ -90,7 +100,7 @@ td.diag { background:#13315C; color:#fff; font-weight:700; }
  <div class="card"><h3>Matriz de confusión e importancia</h3>
   <p class='lbl'><b>Tabla 4</b><br><i>Matriz de confusión en el conjunto de prueba</i></p>
   <table><tr><th>Real \ Pred.</th><th>Deserción</th><th>Matriculado</th><th>Graduado</th></tr><tr><th>Deserción</th><td class='diag'>196</td><td class=''>61</td><td class=''>27</td></tr><tr><th>Matriculado</th><td class=''>25</td><td class='diag'>96</td><td class=''>38</td></tr><tr><th>Graduado</th><td class=''>12</td><td class=''>73</td><td class='diag'>357</td></tr></table>
-  <p class='lbl'><b>Figura 2</b><br><i>Variables más influyentes (importancia por permutación)</i></p><div class='imp'><span>2.º sem.: unidades aprobadas</span><div class='bar' style='width:100%'></div><b>0,200</b></div><div class='imp'><span>1.er sem.: unidades aprobadas</span><div class='bar' style='width:46%'></div><b>0,093</b></div><div class='imp'><span>Matrícula al día</span><div class='bar' style='width:19%'></div><b>0,038</b></div><div class='imp'><span>2.º sem.: unidades inscritas</span><div class='bar' style='width:10%'></div><b>0,020</b></div><div class='imp'><span>Programa académico</span><div class='bar' style='width:5%'></div><b>0,009</b></div><div class='imp'><span>2.º sem.: promedio de notas</span><div class='bar' style='width:4%'></div><b>0,008</b></div>
+  <p class='lbl'><b>Figura 3</b><br><i>Variables más influyentes (importancia por permutación)</i></p><div class='imp'><span>2.º sem.: unidades aprobadas</span><div class='bar' style='width:100%'></div><b>0,200</b></div><div class='imp'><span>1.er sem.: unidades aprobadas</span><div class='bar' style='width:46%'></div><b>0,093</b></div><div class='imp'><span>Matrícula al día</span><div class='bar' style='width:19%'></div><b>0,038</b></div><div class='imp'><span>2.º sem.: unidades inscritas</span><div class='bar' style='width:10%'></div><b>0,020</b></div><div class='imp'><span>Programa académico</span><div class='bar' style='width:5%'></div><b>0,009</b></div><div class='imp'><span>2.º sem.: promedio de notas</span><div class='bar' style='width:4%'></div><b>0,008</b></div>
   <p class="note"><i>Nota.</i> Caída de macro-F1 al permutar cada variable (asociación, no causalidad).</p>
   <p><b>Alerta temprana</b> (FT-Transformer): macro-F1 CV 0,691 ·
   macro-F1 prueba 0,682 · accuracy 0,720.</p>
@@ -98,9 +108,9 @@ td.diag { background:#13315C; color:#fff; font-weight:700; }
 </div>
 
 <div class="grid">
- <div class="card"><h3>Aplicación Streamlit</h3><p class='lbl'><b>Figura 3</b><br><i>Módulo de predicción individual de la aplicación</i></p><img class="shot" src="../capturas/prediccion.png" alt="Captura"><p class="note"><i>Nota.</i> Aplicación desarrollada con Streamlit (Streamlit Inc., 2026).</p></div>
+ <div class="card"><h3>Aplicación Streamlit</h3><p class='lbl'><b>Figura 4</b><br><i>Resultado del módulo de predicción individual de la aplicación</i></p><img class="shot" src="../capturas/prediccion_resultado.png" alt="Captura de la aplicación"><p class="note"><i>Nota.</i> Aplicación desarrollada con Streamlit (Streamlit Inc., 2026).</p></div>
  <div class="card"><h3>Conclusiones</h3><ul>
-  <li>Red neuronal MLP fue la red seleccionada por validación cruzada (macro-F1 0,715); frente al mejor modelo clásico del ACA 1 la diferencia es de -0.015, comparable a la variación entre pliegues.</li>
+  <li>Red neuronal MLP fue la red seleccionada por validación cruzada (macro-F1 0,715); frente al mejor modelo clásico del ACA 1 la diferencia es de −0,015, comparable a la variación entre pliegues.</li>
   <li>Las variables académicas (unidades aprobadas y notas por semestre) son las que más pesan en la red, según la importancia por permutación.</li>
   <li>Las redes son «cajas negras»: la importancia indica asociación, no explica cada decisión.</li>
   <li><i>Matriculado</i> es la clase más difícil (F1 0,494).</li>

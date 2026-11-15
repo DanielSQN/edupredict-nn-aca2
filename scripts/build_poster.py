@@ -32,6 +32,29 @@ def f3(x: float) -> str:
     return f"{x:.3f}".replace(".", ",")
 
 
+HP_LABELS = {
+    "emb_dim": "Dimensión de embedding", "hidden": "Capas ocultas", "dropout": "Dropout",
+    "lr": "Tasa de aprendizaje", "weight_decay": "Weight decay", "batch_size": "Tamaño de lote",
+    "class_weight": "Peso de clases", "optimizador": "Optimizador", "early_stopping": "Parada temprana",
+    "d_token": "Dimensión de token", "n_layers": "Capas Transformer", "n_heads": "Cabezas de atención",
+    "ffn_mult": "Factor de la capa densa",
+}
+
+
+def fmt(v) -> str:
+    """Valor de un hiperparámetro en formato español (coma decimal)."""
+    if isinstance(v, float):
+        return f"{v:g}".replace(".", ",")
+    if isinstance(v, (list, tuple)):
+        return " → ".join(fmt(x) for x in v)
+    return str(v)
+
+
+def miles(n: int) -> str:
+    """Entero con punto de miles, igual que el resto del póster."""
+    return f"{n:,}".replace(",", ".")
+
+
 def load(name: str) -> dict:
     return json.loads((ROOT / "models" / name).read_text(encoding="utf-8"))
 
@@ -116,13 +139,47 @@ def build() -> Path:
                 f"<text x='46' y='24' font-size='14' fill='#13315C'>■ Entrenamiento</text><text x='170' y='24' font-size='14' fill='#eb6834'>■ Validación</text>"
                 f"<text x='4' y='{(H-30)/2:.0f}' font-size='14' fill='#5B6577' transform='rotate(-90 12 {(H-30)/2:.0f})'>Pérdida</text></svg>")
     ap = sel["mejores_hiperparametros"]
-    arch_rows = "".join(f"<tr><td>{html.escape(str(k))}</td><td>{html.escape(str(v))}</td></tr>" for k, v in ap.items())
+    hp = [(HP_LABELS.get(k, k), fmt(v)) for k, v in ap.items()]
+    if len(hp) % 2:
+        hp.append(("", ""))
+    mitad = len(hp) // 2
+    arch_rows = "".join(
+        f"<tr><td>{html.escape(a)}</td><td>{html.escape(b)}</td><td>{html.escape(c)}</td><td>{html.escape(d)}</td></tr>"
+        for (a, b), (c, d) in zip(hp[:mitad], hp[mitad:]))
+
+    # Diagrama de la red desplegada, construido con sus dimensiones reales
+    n_cat = len(meta["columnas_nominales"])
+    n_num = len(meta["columnas_numericas"]) + len(meta["columnas_binarias"]) + len(meta["columnas_derivadas"])
+    n_cls = len(meta["clases"])
+    drop = fmt(ap["dropout"])
+
+    def node(text: str, cls: str = "") -> str:
+        return f"<div class='node {cls}'><span>{text}</span></div>"
+
+    flecha = "<div class='arrow'>→</div>"
+    if w == "mlp":
+        emb = ap["emb_dim"]
+        d_in = n_num + n_cat * emb
+        capas = flecha.join(node(f"Capa densa<br>{u} neuronas<br>ReLU · dropout {drop}") for u in ap["hidden"])
+        entradas = (node(f"{n_cat} variables nominales<br><i>embeddings</i> (dim. {emb})", "in")
+                    + node(f"{n_num} numéricas y binarias<br>estandarizadas", "in"))
+        net = (f"<div class='col'>{entradas}</div>" + flecha + node(f"Vector de<br>{d_in} valores", "in") + flecha
+               + capas + flecha + node(f"Salida<br>{n_cls} clases<br>softmax", "out"))
+    else:
+        d_tok, n_lay, n_head = ap["d_token"], ap["n_layers"], ap["n_heads"]
+        net = (node(f"{n_num + n_cat} variables<br>un <i>token</i> por variable<br>(dim. {d_tok})", "in") + flecha
+               + node("+ token<br>[CLS]", "in") + flecha
+               + node(f"{n_lay} capas Transformer<br>auto-atención · {n_head} cabezas<br>dropout {drop}") + flecha
+               + node(f"Token [CLS]<br>{n_cls} clases<br>softmax", "out"))
     best_classic = max((k for k in full["modelos"] if k not in NN), key=lambda k: full["modelos"][k]["cv"]["f1_macro"]["media"])
     bc = full["modelos"][best_classic]
     delta = sel["cv"]["f1_macro"]["media"] - bc["cv"]["f1_macro"]["media"]
+    delta_txt = f"{delta:+.3f}".replace(".", ",").replace("-", "−")
 
-    shot = ROOT / "docs" / "capturas" / "prediccion.png"
-    shot_html = '<img class="shot" src="../capturas/prediccion.png" alt="Captura">' if shot.exists() else placeholder("[Captura de la app: docs/capturas/prediccion.png]")
+    capturas = ROOT / "docs" / "capturas"
+    shot = next((capturas / n for n in ("prediccion_resultado.png", "prediccion.png") if (capturas / n).exists()), None)
+    shot_html = (f'<img class="shot" src="../capturas/{shot.name}" alt="Captura de la aplicación">' if shot
+                 else placeholder("[Captura de la app: docs/capturas/prediccion_resultado.png]"))
 
     page = f"""<!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8"><title>Póster EduPredict AI · ACA 2</title>
@@ -159,13 +216,21 @@ td.diag {{ background:#13315C; color:#fff; font-weight:700; }}
 .dot {{ display:inline-block; width:4mm; height:4mm; border-radius:50%; margin-right:2mm; }}
 .imp {{ display:grid; grid-template-columns: 80mm 1fr 20mm; align-items:center; gap:3mm; font-size:13pt; margin:1.5mm 0; }}
 .imp .bar {{ height:5mm; background:#13315C; border-radius:0 2mm 2mm 0; }}
-.shot {{ width:100%; height:62mm; object-fit:cover; object-position:top; border-radius:4mm; border:1px solid #E6E9EF; }}
+.shot {{ width:100%; height:auto; max-height:62mm; object-fit:cover; object-position:top; border-radius:4mm; border:1px solid #E6E9EF; }}
 .refs {{ grid-column: span 1; }} .ref {{ font-size:10pt !important; line-height:1.25 !important; padding-left:8mm; text-indent:-8mm; margin:0 0 1.6mm !important; word-break:break-word; }}
 .cite {{ font-weight:500; color:#5B6577; font-size:18pt; }}
 .lbl {{ font-size:11.5pt !important; line-height:1.25 !important; margin:2mm 0 1.5mm !important; color:#1B2433; }}
 .qrs {{ display:flex; flex-direction:column; gap:3mm; }} .qrbox {{ flex:1; display:flex; gap:4mm; align-items:center; font-size:12pt; }}
 .qrbox img, .ph.qr {{ width:25mm; height:25mm; flex:none; }} .qrbox {{ word-break:break-all; }}
 .note {{ font-size:11.5pt; color:#5B6577; }}
+.net {{ display:flex; align-items:stretch; gap:2mm; margin:1mm 0 3mm; }}
+.net .col {{ display:flex; flex-direction:column; gap:2mm; flex:1.7; }}
+.net .arrow {{ align-self:center; font-size:20pt; }}
+.node {{ flex:1; background:#13315C; color:#fff; border-radius:3mm; padding:3mm 2mm; text-align:center; font-size:11.5pt;
+         font-weight:600; line-height:1.25; display:flex; align-items:center; justify-content:center; }}
+.node.in {{ background:#E8EEF7; color:#0B2545; }}
+.node.out {{ background:#0B2545; }}
+table.hp td {{ text-align:left; }} table.hp td:nth-child(odd) {{ color:#5B6577; width:27%; }} table.hp td:nth-child(even) {{ font-weight:600; }}
 </style></head><body><div class="poster">
 <header>{logo_html}<div>
 <h1>EduPredict AI</h1>
@@ -196,11 +261,13 @@ td.diag {{ background:#13315C; color:#fff; font-weight:700; }}
 
 <div class="grid">
  <div class="card"><h3>Arquitectura de red neuronal</h3>
-  <p><b>{html.escape(sel['nombre'])}</b> · {sel.get('parametros', 0):,} parámetros entrenables</p>
+  <p><b>{html.escape(sel['nombre'])}</b> · {miles(sel.get('parametros', 0))} parámetros entrenables</p>
+  <p class='lbl'><b>Figura 1</b><br><i>Arquitectura de la red desplegada (escenario completo)</i></p>
+  <div class="net">{net}</div>
   <p class='lbl'><b>Tabla 1</b><br><i>Hiperparámetros de la red desplegada</i></p>
-  <table>{arch_rows}</table></div>
+  <table class="hp">{arch_rows}</table></div>
  <div class="card"><h3>Curvas de entrenamiento</h3>
-  <p class='lbl'><b>Figura 1</b><br><i>Pérdida de entrenamiento y validación por época ({html.escape(sel['nombre'].split(' (')[0])}, escenario completo)</i></p>
+  <p class='lbl'><b>Figura 2</b><br><i>Pérdida de entrenamiento y validación por época ({html.escape(sel['nombre'].split(' (')[0])}, escenario completo)</i></p>
   {svg_curves(h)}
   <p class="note"><i>Nota.</i> <i>Early stopping</i> sobre el macro-F1 de validación (15 % del entrenamiento).</p></div>
 </div>
@@ -216,7 +283,7 @@ td.diag {{ background:#13315C; color:#fff; font-weight:700; }}
  <div class="card"><h3>Matriz de confusión e importancia</h3>
   <p class='lbl'><b>Tabla 4</b><br><i>Matriz de confusión en el conjunto de prueba</i></p>
   <table>{cm_html}</table>
-  <p class='lbl'><b>Figura 2</b><br><i>Variables más influyentes (importancia por permutación)</i></p>{imp_html}
+  <p class='lbl'><b>Figura 3</b><br><i>Variables más influyentes (importancia por permutación)</i></p>{imp_html}
   <p class="note"><i>Nota.</i> Caída de macro-F1 al permutar cada variable (asociación, no causalidad).</p>
   <p><b>Alerta temprana</b> ({html.escape(sel_e['nombre'].split(' (')[0])}): macro-F1 CV {f3(sel_e['cv']['f1_macro']['media'])} ·
   macro-F1 prueba {f3(sel_e['prueba']['f1_macro'])} · accuracy {f3(sel_e['prueba']['accuracy'])}.</p>
@@ -224,9 +291,9 @@ td.diag {{ background:#13315C; color:#fff; font-weight:700; }}
 </div>
 
 <div class="grid">
- <div class="card"><h3>Aplicación Streamlit</h3><p class='lbl'><b>Figura 3</b><br><i>Módulo de predicción individual de la aplicación</i></p>{shot_html}<p class="note"><i>Nota.</i> Aplicación desarrollada con Streamlit (Streamlit Inc., 2026).</p></div>
+ <div class="card"><h3>Aplicación Streamlit</h3><p class='lbl'><b>Figura 4</b><br><i>Resultado del módulo de predicción individual de la aplicación</i></p>{shot_html}<p class="note"><i>Nota.</i> Aplicación desarrollada con Streamlit (Streamlit Inc., 2026).</p></div>
  <div class="card"><h3>Conclusiones</h3><ul>
-  <li>{html.escape(sel['nombre'].split(' (')[0])} fue la red seleccionada por validación cruzada (macro-F1 {f3(sel['cv']['f1_macro']['media'])}); frente al mejor modelo clásico del ACA 1 la diferencia es de {delta:+.3f}, comparable a la variación entre pliegues.</li>
+  <li>{html.escape(sel['nombre'].split(' (')[0])} fue la red seleccionada por validación cruzada (macro-F1 {f3(sel['cv']['f1_macro']['media'])}); frente al mejor modelo clásico del ACA 1 la diferencia es de {delta_txt}, comparable a la variación entre pliegues.</li>
   <li>Las variables académicas (unidades aprobadas y notas por semestre) son las que más pesan en la red, según la importancia por permutación.</li>
   <li>Las redes son «cajas negras»: la importancia indica asociación, no explica cada decisión.</li>
   <li><i>Matriculado</i> es la clase más difícil (F1 {f3(sel['prueba']['por_clase']['Enrolled']['f1'])}).</li>
