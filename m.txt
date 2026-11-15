@@ -1,0 +1,5 @@
+claves raiz: ['modalidad', 'descripcion', 'criterio_seleccion', 'modelo_seleccionado', 'ranking_cv', 'modelos', 'importancia_permutacion_prueba', 'generado_utc']
+claves de un modelo: ['nombre', 'mejores_hiperparametros', 'combinaciones_evaluadas', 'cv', 'prueba', 'historial', 'parametros', 'tiempo_busqueda_s']
+claves de prueba: ['accuracy', 'balanced_accuracy', 'f1_macro', 'f1_weighted', 'por_clase', 'matriz_confusion', 'roc_auc_ovr_macro']
+claves de cv: ['accuracy', 'balanced_accuracy', 'f1_macro', 'recall_Dropout', 'recall_Enrolled', 'recall_Graduate']
+por_clase: {"Dropout": {"precision": 0.8412017167381974, "recall": 0.6901408450704225, "f1": 0.758220502901354, "soporte": 284}, "Enrolled": {"precision": 0.41739130434782606, "recall": 0.6037735849056604, "f1": 0.493573264781491, "soporte": 159}, "Graduate": {"precision": 0.8459715639810427, "recall": 0.8076923076923077, "f1": 0.8263888888888888, "soporte": 442}}

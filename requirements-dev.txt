@@ -6,3 +6,4 @@ seaborn>=0.13
 nbformat
 nbconvert
 ipykernel
+qrcode[pil]>=7.4

@@ -1,0 +1,31 @@
+for fs in (FULL, EARLY):
+    mod = fs.name; P = particiones[mod]; a = ganador[mod]
+    metricas = T.export_modality(fs, a, clasificadores[mod][a], resultados[mod], base[mod],
+                                 P["X_train"], P["X_test"], P["y_train"], P["y_test"], df, ROOT / "models")
+    print(f"✔ {mod}: red desplegada = {ARCH_NAMES[a]} | ranking CV: {metricas['ranking_cv']}")
+
+print()
+for f in sorted((ROOT / "models").glob("*")):
+    if f.is_file(): print(f"  {f.name:32s} {f.stat().st_size/1024:8.1f} KB")
+------------------------------------------------------------
+from src.predict import load_model, predict_one, predict_frame, check_artifacts
+assert not any(check_artifacts().values()), check_artifacts()
+
+for mod in ("completo", "temprano"):
+    P = particiones[mod]; a = ganador[mod]
+    reloaded = load_model(mod)
+    X = P["X_test"]
+    assert np.allclose(reloaded.predict_proba(X), clasificadores[mod][a].predict_proba(X), atol=1e-6)
+    acc = (reloaded.predict(X) == P["y_test"]).mean()
+    assert abs(acc - resultados[mod][a]["prueba"]["accuracy"]) < 1e-9
+    print(f"✔ {mod}: el modelo recargado desde models/*.pt da las mismas probabilidades y accuracy de prueba = {acc:.4f}")
+
+ej = particiones["completo"]["X_test"].iloc[0].to_dict()
+r = predict_one(ej, "completo")
+print("\nEjemplo (misma ruta que usa la app):", r.clase_es, {dd.CLASS_LABELS_ES[k]: round(v, 3) for k, v in r.probabilidades.items()})
+print("Real:", dd.CLASS_LABELS_ES[particiones["completo"]["y_test"].iloc[0]])
+------------------------------------------------------------
+# Pruebas automáticas del repositorio (incluye el arranque de las 4 páginas de Streamlit)
+res = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider"], capture_output=True, text=True)
+print(res.stdout[-1500:] or res.stderr[-1500:])
+------------------------------------------------------------

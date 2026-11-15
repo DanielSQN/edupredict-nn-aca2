@@ -1,0 +1,12 @@
+PARTE 1 — Exploración y gestión de datos con **SQL** (Paso 1)
+      -> fit(
+PARTE 2 — Preparación y pipeline para redes neuronales (Paso 2)
+      -> fit(
+PARTE 3 — Arquitecturas de redes neuronales (Paso 3)
+      -> fit(
+PARTE 4 — Entrenamiento (Paso 3)
+PARTE 5 — Selección de hiperparámetros por validación cruzada (Paso 3)
+PARTE 6 — Entrenamiento final y evaluación en prueba (Paso 4)
+PARTE 7 — Comparación con los modelos clásicos del ACA 1 e interpretación (Pa
+      -> permutation_importances
+PARTE 8 — Exportación para Streamlit (Paso 5)
