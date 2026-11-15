@@ -20,9 +20,9 @@ CONTEXTO = (
 PILAR = "Proyecto 2 — Educación: analítica académica y prevención de la deserción"
 
 PREGUNTA = (
-    "¿Cómo transformar datos educativos en conocimiento predictivo para anticipar la "
-    "deserción de un estudiante y facilitar la identificación de posibles situaciones "
-    "de riesgo académico?"
+    "¿Cómo aprovechar las arquitecturas de redes neuronales para extraer patrones "
+    "complejos en datos educativos, optimizando el rendimiento predictivo y permitiendo "
+    "su interacción práctica a través de una interfaz en Streamlit?"
 )
 
 OBJETIVO = (
