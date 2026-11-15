@@ -1,4 +1,4 @@
-# Guion del video de sustentación (3 a 5 minutos)
+# Guion del video de sustentación (3 minutos)
 
 > **Enunciado (entregable 4):** exposición sintética del equipo con *problema, arquitectura de red
 > seleccionada, métricas obtenidas y demostración en vivo de la app en Streamlit y del póster*.
@@ -12,20 +12,50 @@
 > - **Público**: cualquiera debe poder abrirlo y reproducirlo sin pedir permisos.
 > - Mostrar **tanto el póster como la interfaz gráfica en funcionamiento**.
 >
+> **Duración prevista: 3:10 a 3:25.** El texto tiene 440 palabras (unos 3:00 de voz a ritmo
+> normal) más los cambios de pantalla de la demostración y del póster. El límite inferior es
+> estricto: **si un ensayo baja de 3:05, no se recorta nada; se habla más despacio.**
+>
 > Las cifras salen de `models/metricas_nn.json` y `models/metricas_nn_temprano.json`, medidas sobre
 > el conjunto de prueba: 885 estudiantes que las redes nunca vieron. Si se vuelve a entrenar, hay
-> que actualizarlas aquí y regenerar el póster.
-> El reparto de abajo es una propuesta: intercámbienlo como les sirva.
+> que actualizarlas aquí, en la presentación y en el póster.
+> El reparto es una propuesta: intercámbienlo como les sirva.
 
-| Tiempo | Bloque | Quién | Qué decir / mostrar |
-|---|---|---|---|
-| 0:00–0:30 | **El problema** | Paula Calvo | En los datos de este proyecto, casi uno de cada tres estudiantes abandonó la carrera: 1.421 de 4.424. Cuando la institución se da cuenta, casi siempre ya es tarde para ayudarlo. La pregunta del proyecto: ¿se puede anticipar ese riesgo con los datos que la universidad ya tiene, y ponerlo en una herramienta que un coordinador pueda usar? Datos reales: 4.424 estudiantes, 36 datos de cada uno. |
-| 0:30–1:10 | **Los datos** | Juan Caviedes | De dónde salen (repositorio público UCI, una universidad portuguesa) y qué sabemos de cada estudiante: notas del semestre, materias aprobadas, beca, deuda de matrícula, edad al ingresar. Están guardados en una base de datos y la aplicación los consulta de ahí. Tres resultados posibles: desertó (32 %), sigue matriculado (18 %) o se graduó (50 %). |
-| 1:10–2:05 | **Las redes neuronales, en palabras sencillas** | Jonathan Flórez | Mostrar el **diagrama del póster** (Figura 1). Idea central: en vez de darle reglas al computador, le mostramos miles de historias académicas y él aprende solo qué combinaciones anticipan el abandono. Probamos **dos redes** en **dos momentos**: con la historia académica completa y con solo el primer semestre, que es la alerta temprana. **No ganó la misma en los dos**: con la información completa quedó la red más sencilla, de capas en cadena (MLP); en la alerta temprana quedó la que relaciona todos los datos entre sí (FT-Transformer). Las comparamos cinco veces con particiones distintas para no elegir por suerte. Mostrar las **curvas de aprendizaje** (Figura 2): la red mejora hasta la vuelta 11; después empieza a memorizar en lugar de aprender, y nos quedamos con la de ese punto. |
-| 2:05–2:55 | **Qué tan bien funciona** | Daniel Quintero | Tablas del póster. **Con la información completa** (red MLP): acierta la situación de **73 de cada 100** estudiantes que nunca había visto (exactitud 0,733; F1 macro 0,693). De los que de verdad desertaron, **detecta a 7 de cada 10**, y cuando señala a alguien como posible desertor acierta en 84 de cada 100. Dos mensajes honestos: (1) **el punto débil es el estudiante que *sigue matriculado***: es el grupo más pequeño y el que más se confunde con los otros dos (F1 de 0,49, frente a 0,76 en deserción y 0,83 en graduado); (2) **frente a los modelos clásicos del ACA 1 el desempeño es comparable, no superior**: el mejor clásico obtiene 0,730 y la red 0,715 — con 4.400 filas de tabla las redes no dan un salto, y decirlo es parte del rigor. Y la **alerta temprana** (red FT-Transformer): con solo el primer semestre acierta **72 de cada 100** (F1 macro 0,682) y detecta a casi dos de cada tres desertores. Se pierde muy poco por avisar un semestre antes. |
-| 2:55–4:10 | **Demostración en vivo** | Paula Calvo o Juan Caviedes | Abrir la app desplegada: <https://edupredict-nn-aca2.streamlit.app/>. **Dashboard** (panorama del grupo) → **Predicción individual**: llenar el formulario de un estudiante con *Información académica completa* y mostrar las probabilidades de cada situación (aquí responde la red MLP); cambiar a *Alerta temprana* para ver que funciona con menos datos (aquí responde la otra red, el FT-Transformer) → **Comparación de modelos** (tabla, matriz de confusión y curvas, con una pestaña por escenario). Cerrar mostrando el **póster en PDF** completo, con sus QR de app, repositorio y video. |
-| 4:10–4:40 | **Para qué sirve y para qué no** | Jonathan Flórez | Impacto: permite que un coordinador llame al estudiante en riesgo **antes** de que abandone. Lo que más pesa en la predicción son las materias aprobadas y tener la matrícula al día (Figura 3). Límites, dichos sin tecnicismos: la herramienta señala coincidencias, no causas; los datos son de una universidad portuguesa y pueden no trasladarse al caso colombiano; variables como el sexo o la nacionalidad podrían introducir sesgos. Es **apoyo a la decisión humana, nunca una decisión automática** sobre un estudiante. |
-| 4:40–5:00 | **Cierre** | Todos | Nombres completos de los cuatro integrantes, la asignatura y el docente. |
+El guion sigue la [presentación de nueve diapositivas](presentacion_EduPredictAI_ACA2.pdf) (el texto de cada una está también en sus
+notas del orador). Los bloques 7 y 9 se graban **fuera de la presentación**: en el navegador con
+la app y con el póster en PDF.
+
+| # | Tiempo | Diapositiva | Quién | Texto para decir | Qué se muestra |
+|---|---|---|---|---|---|
+| 1 | 0:00–0:12 | Portada | Paula Calvo | Hola. Somos el equipo de EduPredict AI, de la Especialización en Inteligencia Artificial de la CUN. En tres minutos les contamos cómo una red neuronal puede ayudar a anticipar la deserción universitaria. | Título, integrantes y logo de la CUN. |
+| 2 | 0:12–0:34 | El problema | Paula Calvo | En los datos que usamos, casi uno de cada tres estudiantes abandonó la carrera: mil cuatrocientos veintiuno de cuatro mil cuatrocientos veinticuatro. Cuando la universidad se da cuenta, casi siempre ya es tarde. Nuestra pregunta: ¿se puede anticipar ese riesgo con los datos que la institución ya tiene? | «1 de cada 3» y el dashboard de la app. |
+| 3 | 0:34–0:54 | Los datos y el método | Juan Caviedes | Trabajamos con datos públicos de una universidad portuguesa: treinta y seis datos de cada estudiante, como materias aprobadas, notas, beca o matrícula al día. Los guardamos en una base de datos, los preparamos y entrenamos las redes. Hay tres resultados posibles: desertó, sigue matriculado o se graduó. | Las tres cifras del conjunto de datos y los cinco pasos del método. |
+| 4 | 0:54–1:20 | Dos redes, dos momentos | Jonathan Flórez | En lugar de darle reglas al computador, le mostramos miles de historias académicas y la red aprende sola qué combinaciones anticipan el abandono. Probamos dos redes en dos momentos. Con la historia completa ganó la más sencilla, una red de capas en cadena llamada MLP. Con solo el primer semestre ganó el FT-Transformer, que relaciona todos los datos entre sí. | Diagrama de la arquitectura y las dos redes ganadoras. |
+| 5 | 1:20–1:34 | El entrenamiento | Jonathan Flórez | Estas curvas muestran el aprendizaje. La red mejora hasta la vuelta once; después empieza a memorizar en lugar de aprender. Por eso nos quedamos con el modelo de ese punto. | Curvas de pérdida y F1 macro tomadas de la app. |
+| 6 | 1:34–2:04 | Qué tan bien funciona | Daniel Quintero | ¿Qué tan bien funciona? Con estudiantes que nunca había visto, la red acierta la situación de setenta y tres de cada cien, y detecta a siete de cada diez de los que desertaron. Con solo el primer semestre acierta setenta y dos de cada cien: casi lo mismo, un semestre antes. Con honestidad: le cuesta distinguir al que sigue matriculado, y frente a los modelos clásicos el resultado es comparable, no superior. | Las tres cifras y la matriz de confusión. |
+| 7 | 2:04–2:40 | La aplicación, en vivo | Daniel Quintero | Veámosla en vivo. Este es el panorama de los cuatro mil cuatrocientos estudiantes. En Predicción individual llenamos los datos de un estudiante que casi no aprobó materias y pulsamos Analizar: la red estima deserción con ochenta y siete por ciento de probabilidad. Y en Comparación de modelos están las tablas, la matriz de confusión y las curvas que acabamos de mostrar. | **Cambiar al navegador**, con la app ya abierta: Dashboard → Predicción individual → Comparación de modelos. |
+| 8 | 2:40–3:02 | Para qué sirve y para qué no | Juan Caviedes | ¿Para qué sirve? Para que un coordinador llame al estudiante en riesgo antes de que abandone. Lo que más pesa son las materias aprobadas y tener la matrícula al día. Pero la herramienta señala coincidencias, no causas; los datos son de Portugal, y es un apoyo a la decisión humana, nunca una decisión automática. | Usos, límites y la gráfica de variables que más pesan. |
+| 9 | 3:02–3:18 | Póster, aplicación y código | Todos | Este es nuestro póster, con los códigos para abrir la aplicación y el repositorio. Somos Paula Calvo, Juan Caviedes, Jonathan Flórez y Daniel Quintero, de la asignatura Aprendizaje Automático, con el docente Hamilton Rivera Flor. Gracias. | **Abrir el póster en PDF** a pantalla completa y volver a la diapositiva de cierre. |
+
+## El caso de la demostración
+
+Para que la app muestre una alerta clara, dejar el formulario de **Predicción individual** con
+*Información académica completa* y cambiar solo estos campos antes de pulsar **Analizar estudiante**:
+
+| Pestaña | Campo | Valor |
+|---|---|---|
+| 1.er semestre | Unidades aprobadas | 1 |
+| 1.er semestre | Promedio de notas | 9,5 |
+| 2.º semestre | Unidades aprobadas | 0 |
+| 2.º semestre | Promedio de notas | 0 |
+| 2.º semestre | Evaluaciones presentadas | 2 |
+
+Resultado comprobado en la app desplegada: **Deserción, 87,3 %** (Matriculado 12,4 %, Graduado
+0,2 %). Conviene dejar el caso ya lleno antes de grabar y solo pulsar el botón en cámara.
+
+En la demostración no se cambia a *Alerta temprana*: con este mismo caso ese modelo queda casi
+empatado entre Matriculado (50,0 %) y Deserción (48,4 %), y explicarlo no cabe en tres minutos.
+La alerta temprana se cuenta con su cifra en el bloque 6.
 
 ## Cifras de respaldo
 
@@ -72,12 +102,13 @@ El detalle técnico completo (AdamW, dropout, hiperparámetros, importancia por 
 - [x] Modelos entrenados en `models/` (los dos `.pt` con sus metadatos y métricas).
 - [x] App **desplegada y probada** fuera de `localhost`: <https://edupredict-nn-aca2.streamlit.app/>.
 - [x] `ENLACE_APP` y `ENLACE_REPO` completados en `src/project_info.py`, con sus QR en el póster.
+- [x] Presentación de nueve diapositivas con gráficas y pantallas de la app.
 - [ ] Notebook **con las salidas de la ejecución** subido al repositorio.
 - [ ] Abrir la app unos minutos antes de grabar: si lleva días sin visitas, Streamlit la suspende y
       tarda cerca de un minuto en volver.
-- [ ] Ensayar en la app el caso que se va a mostrar, en los dos escenarios.
-- [ ] Póster en PDF abierto y a mano para mostrarlo.
-- [ ] Ensayo **cronometrado**: si pasa de 5:00, se recorta el bloque de la demostración, no el de resultados.
+- [ ] Dejar lleno el caso de la demostración y el póster en PDF abierto en otra ventana.
+- [ ] Ensayo **cronometrado**: entre 3:05 y 3:30. Si pasa de 3:30, se acorta la demostración, no
+      los resultados; si baja de 3:05, se habla más despacio.
 - [ ] Grabado con **voz real** de los integrantes.
 - [ ] Video **público**: probar el enlace en una ventana de incógnito, como pidió el docente.
 - [ ] Después de publicar: completar `ENLACE_VIDEO`, ejecutar `python scripts/build_qr.py` y
