@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><title>Póster EduPredict AI · ACA 2</title>
+<style>
+@page { size: 594mm 841mm; margin: 0; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: 'Segoe UI', Inter, Helvetica, Arial, sans-serif; color:#1B2433; background:#fff; }
+.poster { width:594mm; height:841mm; padding:16mm 18mm; display:flex; flex-direction:column; gap:7mm; }
+header { background:linear-gradient(120deg,#0B2545,#13315C); color:#fff; border-radius:8mm; padding:10mm 14mm;
+          display:flex; align-items:center; gap:12mm; }
+header h1 { font-size:62pt; margin:0; letter-spacing:-1px; }
+header h2 { font-size:26pt; margin:2mm 0 4mm; font-weight:500; color:#DCE3EE; }
+header p { font-size:19pt; margin:1mm 0; color:#DCE3EE; }
+.logo { width:78mm; height:42mm; object-fit:contain; background:#fff; border-radius:4mm; padding:3mm 4mm; }
+.ph { border:2px dashed #9AA7BD; color:#5B6577; display:flex; align-items:center; justify-content:center;
+       border-radius:4mm; font-size:16pt; text-align:center; background:#F4F6FA; }
+header .ph { color:#DCE3EE; background:transparent; border-color:#DCE3EE; }
+.grid { display:grid; grid-template-columns: 1fr 1fr; gap:8mm; }
+.card { border:1px solid #E6E9EF; border-radius:6mm; padding:7mm 9mm; background:#fff; }
+.card h3 { margin:0 0 4mm; font-size:27pt; color:#0B2545; border-left:8px solid #13315C; padding-left:4mm; }
+.card p, .card li { font-size:18pt; line-height:1.4; margin:1.5mm 0; }
+.q { font-style:italic; color:#13315C; font-weight:600; }
+.kpis { display:flex; gap:5mm; margin-top:4mm; }
+.kpi { flex:1; background:#F4F6FA; border-radius:4mm; padding:4mm; text-align:center; }
+.kpi b { display:block; font-size:30pt; color:#0B2545; } .kpi span { font-size:14pt; color:#5B6577; }
+.flow { display:flex; align-items:center; justify-content:space-between; gap:2mm; }
+.step { flex:1; background:#13315C; color:#fff; border-radius:4mm; padding:5mm 2mm; text-align:center; font-size:15pt; font-weight:600; min-height:24mm; display:flex; align-items:center; justify-content:center; }
+.arrow { font-size:26pt; color:#13315C; }
+table { width:100%; border-collapse:collapse; font-size:17pt; }
+th, td { padding:2.5mm 3mm; border-bottom:1px solid #E6E9EF; text-align:center; }
+th { color:#5B6577; font-weight:600; } td:first-child, th:first-child { text-align:left; }
+tr.win td { background:#E8EEF7; font-weight:700; }
+td.diag { background:#13315C; color:#fff; font-weight:700; }
+.dot { display:inline-block; width:4mm; height:4mm; border-radius:50%; margin-right:2mm; }
+.imp { display:grid; grid-template-columns: 95mm 1fr 22mm; align-items:center; gap:3mm; font-size:15pt; margin:2mm 0; }
+.imp .bar { height:6mm; background:#13315C; border-radius:0 2mm 2mm 0; }
+.shot { width:100%; height:92mm; object-fit:cover; object-position:top; border-radius:4mm; border:1px solid #E6E9EF; }
+.refs { grid-column: span 1; } .ref { font-size:11.5pt !important; line-height:1.3 !important; padding-left:8mm; text-indent:-8mm; margin:0 0 1.6mm !important; word-break:break-word; }
+.cite { font-weight:500; color:#5B6577; font-size:22pt; }
+.lbl { font-size:13pt !important; line-height:1.25 !important; margin:2mm 0 1.5mm !important; color:#1B2433; }
+.qrs { display:flex; flex-direction:column; gap:4mm; } .qrbox { flex:1; display:flex; gap:4mm; align-items:center; font-size:14pt; }
+.qrbox img, .ph.qr { width:34mm; height:34mm; flex:none; } .qrbox { word-break:break-all; }
+.note { font-size:13pt; color:#5B6577; }
+</style></head><body><div class="poster">
+<header><img class="logo" src="logo_cun.png" alt="Logo CUN"><div>
+<h1>EduPredict AI</h1>
+<h2>Predicción de deserción universitaria con redes neuronales (MLP · FT-Transformer)</h2>
+<p><b>Paula Carolina Calvo Pérez, Juan Sebastián Caviedes Roa, Jonathan Camilo Flórez Bolívar, Daniel Santiago Quintero Niño</b></p>
+<p>Docente: Dr. Hamilton Rivera Flor · Aprendizaje Automático · Especialización en Inteligencia Artificial · CUN</p>
+</div></header>
+
+<div class="grid">
+ <div class="card"><h3>Problema</h3>
+  <p>La deserción universitaria suele detectarse cuando ya es tarde para intervenir.</p>
+  <p class="q">¿Cómo aprovechar las arquitecturas de redes neuronales para extraer patrones complejos en datos educativos, optimizando el rendimiento predictivo y permitiendo su interacción práctica a través de una interfaz en Streamlit?</p></div>
+ <div class="card"><h3>Objetivo</h3><p>Desarrollar e implementar redes neuronales (un perceptrón multicapa con embeddings y un Transformer para datos tabulares) que clasifiquen la situación final de un estudiante (deserción, matriculado o graduado), evaluar su desempeño frente a los modelos clásicos del ACA 1 y desplegar el mejor modelo en una aplicación interactiva de Streamlit.</p></div>
+</div>
+
+<div class="card"><h3>Pilar: Educación · Dataset UCI 697 <span class='cite'>(Realinho et al., 2021)</span></h3>
+ <div class="kpis">
+  <div class="kpi"><b>4.424</b><span>estudiantes</span></div>
+  <div class="kpi"><b>36</b><span>variables predictoras</span></div>
+  <div class="kpi"><b style="color:#D62F4B">32,1 %</b><span>Deserción</span></div>
+  <div class="kpi"><b style="color:#D99000">17,9 %</b><span>Matriculado</span></div>
+  <div class="kpi"><b style="color:#2A78D6">49,9 %</b><span>Graduado</span></div>
+ </div></div>
+
+<div class="card"><h3>Metodología</h3><div class="flow"><div class='step'>Datos UCI 697<br>en SQLite</div><div class='arrow'>→</div><div class='step'>Limpieza + split<br>estratificado 80/20</div><div class='arrow'>→</div><div class='step'>Codificación<br>z-score + embeddings</div><div class='arrow'>→</div><div class='step'>MLP y<br>FT-Transformer</div><div class='arrow'>→</div><div class='step'>Pérdida ponderada<br>AdamW + early stopping</div><div class='arrow'>→</div><div class='step'>CV 5-fold<br>(macro-F1)</div><div class='arrow'>→</div><div class='step'>Evaluación<br>en prueba</div><div class='arrow'>→</div><div class='step'>App Streamlit</div></div>
+ <p class="note">Redes implementadas con PyTorch (Paszke et al., 2019): MLP con <i>embeddings</i> y FT-Transformer (Gorishniy et al., 2021; Vaswani et al., 2017), entrenadas con AdamW (Loshchilov &amp; Hutter, 2019).
+ Desbalance tratado con pérdida ponderada por clase. Referencia: modelos clásicos del ACA 1 (Pedregosa et al., 2011). Escenario adicional de alerta temprana sin variables del 2.º semestre.</p></div>
+
+<div class="grid">
+ <div class="card"><h3>Arquitectura de red neuronal</h3>
+  <p><b>Red neuronal MLP (embeddings)</b> · 17,323 parámetros entrenables</p>
+  <p class='lbl'><b>Tabla 1</b><br><i>Hiperparámetros de la red desplegada</i></p>
+  <table><tr><td>emb_dim</td><td>4</td></tr><tr><td>hidden</td><td>[128, 64]</td></tr><tr><td>dropout</td><td>0.4</td></tr><tr><td>lr</td><td>0.001</td></tr><tr><td>weight_decay</td><td>0.01</td></tr><tr><td>batch_size</td><td>128</td></tr><tr><td>class_weight</td><td>balanced (en la pérdida)</td></tr><tr><td>optimizador</td><td>AdamW</td></tr><tr><td>early_stopping</td><td>macro-F1 de validación, paciencia 15</td></tr></table></div>
+ <div class="card"><h3>Curvas de entrenamiento</h3>
+  <p class='lbl'><b>Figura 1</b><br><i>Pérdida de entrenamiento y validación por época (Red neuronal MLP, escenario completo)</i></p>
+  <svg viewBox='0 0 520 230' width='100%'><rect x='40' y='10' width='470' height='190' fill='none' stroke='#E6E9EF'/><polyline points='40.0,20.3 58.8,79.2 77.6,101.5 96.4,115.5 115.2,122.9 134.0,128.4 152.8,132.2 171.6,137.7 190.4,140.5 209.2,145.4 228.0,147.6 246.8,150.6 265.6,154.4 284.4,160.2 303.2,164.6 322.0,168.8 340.8,171.6 359.6,175.0 378.4,178.0 397.2,181.7 416.0,184.5 434.8,183.3 453.6,188.2 472.4,192.7 491.2,196.8 510.0,200.0' fill='none' stroke='#13315C' stroke-width='3'/><polyline points='40.0,20.0 58.8,74.6 77.6,93.9 96.4,102.5 115.2,106.1 134.0,108.8 152.8,107.6 171.6,110.3 190.4,108.3 209.2,109.9 228.0,112.8 246.8,110.9 265.6,110.9 284.4,114.4 303.2,111.1 322.0,111.5 340.8,111.1 359.6,112.0 378.4,109.1 397.2,112.6 416.0,111.6 434.8,101.1 453.6,104.2 472.4,109.6 491.2,108.2 510.0,109.1' fill='none' stroke='#eb6834' stroke-width='3'/><line x1='228.0' x2='228.0' y1='10' y2='200' stroke='#5B6577' stroke-dasharray='5'/><text x='260' y='222' font-size='14' text-anchor='middle' fill='#5B6577'>Época (línea punteada = época elegida: 11)</text><text x='46' y='24' font-size='14' fill='#13315C'>■ Entrenamiento</text><text x='170' y='24' font-size='14' fill='#eb6834'>■ Validación</text><text x='4' y='100' font-size='14' fill='#5B6577' transform='rotate(-90 12 100)'>Pérdida</text></svg>
+  <p class="note"><i>Nota.</i> <i>Early stopping</i> sobre el macro-F1 de validación (15 % del entrenamiento).</p></div>
+</div>
+
+<div class="grid">
+ <div class="card"><h3>Comparación de modelos</h3>
+  <p class='lbl'><b>Tabla 2</b><br><i>Desempeño de redes neuronales y modelos clásicos (prueba, n = 885)</i></p>
+  <table><tr><th>Modelo</th><th>Macro-F1 CV</th><th>Accuracy</th><th>Macro-F1</th><th>Bal. acc.</th></tr><tr class="win"><td>★ Red neuronal MLP</td><td>0,715</td><td>0,733</td><td>0,693</td><td>0,701</td></tr><tr><td>FT-Transformer</td><td>0,702</td><td>0,744</td><td>0,711</td><td>0,729</td></tr><tr><td>Regresión Logística (ACA 1)</td><td>0,717</td><td>0,724</td><td>0,684</td><td>0,695</td></tr><tr><td>Random Forest (ACA 1)</td><td>0,724</td><td>0,769</td><td>0,717</td><td>0,716</td></tr><tr><td>Gradient Boosting (ACA 1)</td><td>0,730</td><td>0,729</td><td>0,688</td><td>0,697</td></tr></table>
+  <p class="note"><i>Nota.</i> Selección por macro-F1 medio en validación cruzada de 5 pliegues; el conjunto de prueba no interviene en la selección.</p>
+  <p class='lbl'><b>Tabla 3</b><br><i>Métricas por clase de la red seleccionada</i></p>
+  <table><tr><th>Clase (Red neuronal MLP)</th><th>Precisión</th><th>Recall</th><th>F1</th></tr><tr><td><span class='dot' style='background:#D62F4B'></span>Deserción</td><td>0,841</td><td>0,690</td><td>0,758</td></tr><tr><td><span class='dot' style='background:#D99000'></span>Matriculado</td><td>0,417</td><td>0,604</td><td>0,494</td></tr><tr><td><span class='dot' style='background:#2A78D6'></span>Graduado</td><td>0,846</td><td>0,808</td><td>0,826</td></tr></table>
+ </div>
+ <div class="card"><h3>Matriz de confusión e importancia</h3>
+  <p class='lbl'><b>Tabla 4</b><br><i>Matriz de confusión en el conjunto de prueba</i></p>
+  <table><tr><th>Real \ Pred.</th><th>Deserción</th><th>Matriculado</th><th>Graduado</th></tr><tr><th>Deserción</th><td class='diag'>196</td><td class=''>61</td><td class=''>27</td></tr><tr><th>Matriculado</th><td class=''>25</td><td class='diag'>96</td><td class=''>38</td></tr><tr><th>Graduado</th><td class=''>12</td><td class=''>73</td><td class='diag'>357</td></tr></table>
+  <p class='lbl'><b>Figura 2</b><br><i>Variables más influyentes (importancia por permutación)</i></p><div class='imp'><span>2.º sem.: unidades aprobadas</span><div class='bar' style='width:100%'></div><b>0,200</b></div><div class='imp'><span>1.er sem.: unidades aprobadas</span><div class='bar' style='width:46%'></div><b>0,093</b></div><div class='imp'><span>Matrícula al día</span><div class='bar' style='width:19%'></div><b>0,038</b></div><div class='imp'><span>2.º sem.: unidades inscritas</span><div class='bar' style='width:10%'></div><b>0,020</b></div><div class='imp'><span>Programa académico</span><div class='bar' style='width:5%'></div><b>0,009</b></div><div class='imp'><span>2.º sem.: promedio de notas</span><div class='bar' style='width:4%'></div><b>0,008</b></div>
+  <p class="note"><i>Nota.</i> Caída de macro-F1 al permutar cada variable (asociación, no causalidad).</p>
+  <p><b>Alerta temprana</b> (FT-Transformer): macro-F1 CV 0,691 ·
+  macro-F1 prueba 0,682 · accuracy 0,720.</p>
+ </div>
+</div>
+
+<div class="grid">
+ <div class="card"><h3>Aplicación Streamlit</h3><p class='lbl'><b>Figura 3</b><br><i>Módulo de predicción individual de la aplicación</i></p><img class="shot" src="../capturas/prediccion.png" alt="Captura"><p class="note"><i>Nota.</i> Aplicación desarrollada con Streamlit (Streamlit Inc., 2026).</p></div>
+ <div class="card"><h3>Conclusiones</h3><ul>
+  <li>Red neuronal MLP fue la red seleccionada por validación cruzada (macro-F1 0,715); frente al mejor modelo clásico del ACA 1 la diferencia es de -0.015, comparable a la variación entre pliegues.</li>
+  <li>Las variables académicas (unidades aprobadas y notas por semestre) son las que más pesan en la red, según la importancia por permutación.</li>
+  <li>Las redes son «cajas negras»: la importancia indica asociación, no explica cada decisión.</li>
+  <li><i>Matriculado</i> es la clase más difícil (F1 0,494).</li>
+  <li>Con información del 1.er semestre ya es posible una alerta temprana útil, un semestre antes.</li>
+  <li>Herramienta académica: identifica asociaciones, no causas, y no reemplaza decisiones institucionales.</li>
+ </ul></div>
+</div>
+
+<div class="grid" style="grid-template-columns:1.55fr 1fr">
+ <div class="card refs"><h3>Referencias</h3><p class="ref">Breiman, L. (2001). Random forests. <i>Machine Learning, 45</i>(1), 5–32. https://doi.org/10.1023/A:1010933404324</p><p class="ref">Friedman, J. H. (2001). Greedy function approximation: A gradient boosting machine. <i>The Annals of Statistics, 29</i>(5), 1189–1232. https://doi.org/10.1214/aos/1013203451</p><p class="ref">Gorishniy, Y., Rubachev, I., Khrulkov, V., &amp; Babenko, A. (2021). Revisiting deep learning models for tabular data. <i>Advances in Neural Information Processing Systems, 34</i>, 18932–18943.</p><p class="ref">Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., &amp; Liu, T.-Y. (2017). LightGBM: A highly efficient gradient boosting decision tree. <i>Advances in Neural Information Processing Systems, 30</i>, 3146–3154.</p><p class="ref">Loshchilov, I., &amp; Hutter, F. (2019). Decoupled weight decay regularization. <i>International Conference on Learning Representations (ICLR)</i>. https://arxiv.org/abs/1711.05101</p><p class="ref">Martins, M. V., Tolledo, D., Machado, J., Baptista, L. M. T., &amp; Realinho, V. (2021). Early prediction of student&#x27;s performance in higher education: A case study. En Á. Rocha, H. Adeli, G. Dzemyda, F. Moreira, &amp; A. M. Ramalho Correia (Eds.), <i>Trends and applications in information systems and technologies</i> (pp. 166–175). Springer. https://doi.org/10.1007/978-3-030-72657-7_16</p><p class="ref">Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., Killeen, T., Lin, Z., Gimelshein, N., Antiga, L., Desmaison, A., Köpf, A., Yang, E., DeVito, Z., Raison, M., Tejani, A., Chilamkurthy, S., Steiner, B., Fang, L., Bai, J., &amp; Chintala, S. (2019). PyTorch: An imperative style, high-performance deep learning library. <i>Advances in Neural Information Processing Systems, 32</i>, 8024–8035.</p><p class="ref">Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J., Passos, A., Cournapeau, D., Brucher, M., Perrot, M., &amp; Duchesnay, É. (2011). Scikit-learn: Machine learning in Python. <i>Journal of Machine Learning Research, 12</i>, 2825–2830. https://jmlr.org/papers/v12/pedregosa11a.html</p><p class="ref">Realinho, V., Machado, J., Baptista, L., &amp; Martins, M. V. (2022). Predicting student dropout and academic success. <i>Data, 7</i>(11), Artículo 146. https://doi.org/10.3390/data7110146</p><p class="ref">Realinho, V., Vieira Martins, M., Machado, J., &amp; Baptista, L. (2021). <i>Predict students&#x27; dropout and academic success</i> [Conjunto de datos]. UCI Machine Learning Repository. https://doi.org/10.24432/C5MC89</p><p class="ref">Streamlit Inc. (2026). <i>Streamlit</i> (Versión 1.66.1) [Software]. https://streamlit.io</p><p class="ref">Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., &amp; Polosukhin, I. (2017). Attention is all you need. <i>Advances in Neural Information Processing Systems, 30</i>, 5998–6008.</p></div>
+ <div class="card"><h3>Enlaces</h3><div class="qrs"><div class='qrbox'><div class="ph qr">[QR]</div><div><b>App</b><br>https://edupredict-nn-aca2.streamlit.app/</div></div><div class='qrbox'><div class="ph qr">[QR]</div><div><b>Video</b><br>[URL pública pendiente]</div></div><div class='qrbox'><div class="ph qr">[QR]</div><div><b>Repositorio</b><br>https://github.com/Paula217/edupredict-nn-aca2</div></div></div></div>
+</div>
+</div></body></html>
