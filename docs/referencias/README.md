@@ -40,7 +40,7 @@ implementadas y se comparan por validación cruzada.
 | Entregable 1 · Notebook reproducible y modular | `notebooks/ACA2_Student_Dropout_NN.ipynb` |
 | Entregable 2 · Póster infografía (APA 7) | `scripts/build_poster.py` → `docs/poster/` |
 | Entregable 3 · App Streamlit + dependencias | `app.py`, `src/`, `requirements.txt` |
-| Entregable 4 · Video de 3 a 5 min | guion en `docs/video/guion_sustentacion.md` |
+| Entregable 4 · Video de 3 a 5 min | https://youtu.be/SZd0FG4RxS4 · diapositivas en `docs/video/` |
 
 Los enlaces públicos de la app y del video se centralizan en
 `src/project_info.py` (`ENLACE_APP`, `ENLACE_VIDEO`, `ENLACE_REPO`); de allí los leen la app

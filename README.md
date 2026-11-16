@@ -11,7 +11,7 @@ Proyecto ACA N.º 2 — Aprendizaje Automático · Especialización en Inteligen
 | 📓 Notebook reproducible | [`notebooks/ACA2_Student_Dropout_NN.ipynb`](notebooks/ACA2_Student_Dropout_NN.ipynb) |
 | 💻 App Streamlit | **https://edupredict-nn-aca2.streamlit.app/** · [`app.py`](app.py) · `src/` · [`requirements.txt`](requirements.txt) |
 | 📄 Póster infografía (PDF A1, APA 7) | [`docs/poster/poster_EduPredictAI_ACA2.pdf`](docs/poster/poster_EduPredictAI_ACA2.pdf) |
-| 🎥 Video de sustentación (3–5 min) | guion en [`docs/video/guion_sustentacion.md`](docs/video/guion_sustentacion.md) |
+| 🎥 Video de sustentación (3–5 min) | [youtu.be/SZd0FG4RxS4](https://youtu.be/SZd0FG4RxS4) · diapositivas en [`docs/video/presentacion_EduPredictAI_ACA2.pdf`](docs/video/presentacion_EduPredictAI_ACA2.pdf) |
 | 📋 Enunciado y rúbrica | [`docs/referencias/ACA_2_Aprendizaje_Automatico_CUN.pdf`](docs/referencias/ACA_2_Aprendizaje_Automatico_CUN.pdf) |
 
 ## 2. Problema, objetivo y dataset
@@ -100,7 +100,7 @@ aca_2_machine_learning/
 ├── scripts/build_poster.py        # póster HTML desde las métricas reales
 ├── scripts/build_qr.py            # códigos QR del póster desde los enlaces de project_info.py
 ├── tests/                         # pytest: codificador, redes, predicción, arranque de Streamlit
-└── docs/                          # enunciado, guion del video, capturas, póster
+└── docs/                          # enunciado, diapositivas del video, capturas, póster
 ```
 
 ## 6. Resultados
