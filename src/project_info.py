@@ -43,7 +43,7 @@ DOCENTE: str = "Dr. Hamilton Rivera Flor"
 
 # Completar cuando estén publicados (la app y el póster muestran un espacio reservado si están vacíos).
 ENLACE_APP: str = "https://edupredict-nn-aca2.streamlit.app/"     # URL pública en Streamlit Community Cloud
-ENLACE_VIDEO: str = ""   # URL pública del video de sustentación (3 a 5 min)
+ENLACE_VIDEO: str = "https://youtu.be/SZd0FG4RxS4"   # URL pública del video de sustentación (3 a 5 min)
 ENLACE_REPO: str = "https://github.com/DanielSQN/edupredict-nn-aca2"    # repositorio de GitHub del ACA 2
 
 # Ruta de aprendizaje del ACA (enunciado oficial) y su implementación en este proyecto
